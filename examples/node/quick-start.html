@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An example of RDFa parsing to JSONld</title>
+</head>
+<body vocab="http://xmlns.com/foaf/0.1/" prefix="schema: http://schema.org/">
+    <main typeof="Group" resource="quick-start.html">
+
+        <h2>
+            <span property="name">The dream team</span>
+            <small lang="fr">(<span property="name">L'équipe de choc</span>)</small>
+        </h2>
+
+        <ul>
+            <li property="member" typeof="Person" id="alice" resource="#alice">
+                <span property="name">Alice</span>
+                <link property="knows" href="#bob" />
+            </li>
+
+            <li property="member" typeof="Person" id="bob" resource="#bob">
+                <span property="name">Bob</span>
+                <link property="knows" href="#alice" />
+            </li>
+
+            <li property="member" typeof="Agent" id="bobby" resource="#bobby">
+                <span property="name">Bobby</span> - 
+                <small property="schema:description">The friendly robot</small>
+            </li>
+        </ul>
+
+    </main>
+</body>
+</html>

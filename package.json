@@ -6,15 +6,12 @@
   "module": "src/index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha --compilers js:@babel/register",
-    "prepublish": "rm -rf dist && babel src --out-dir dist && rollup -c",
-    "postversion": "git push && git push --tags"
+    "test": "mocha",
+    "build": "rollup -c",
+    "prepublish": "rm -rf dist && npm run build"
   },
   "prettier": {
     "singleQuote": true
-  },
-  "eslintConfig": {
-    "extends": "@scipe"
   },
   "repository": {
     "type": "git",
@@ -38,27 +35,17 @@
     "@rdfjs/dataset": "^2.0.1",
     "graph-rdfa-processor": "^2.0.0",
     "is-url": "^1.2.4",
-    "jsdom": "^21.0.0",
+    "jsdom": "^22.1.0",
     "xmldom": "^0.6.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.20.7",
-    "@babel/core": "^7.20.12",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/register": "^7.18.9",
     "@rollup/plugin-alias": "^4.0.2",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^24.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-terser": "^0.3.0",
-    "babel-plugin-add-module-exports": "1.0.4",
-    "jsonld": "0.4.11",
-    "mocha": "^3.2.0",
-    "prettier": "^1.18.2",
-    "rollup": "^3.10.0"
-  },
-  "browser": {
-    "xmldom": "./dist/browser/xmldom.js",
-    "jsdom": "./dist/browser/jsdom.js"
+    "jsonld": "^8.2.0",
+    "mocha": "^10.2.0",
+    "rollup": "^3.28.0"
   }
 }

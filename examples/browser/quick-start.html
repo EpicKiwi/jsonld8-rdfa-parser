@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An example of RDFa parsing to JSONld</title>
+</head>
+<body vocab="http://xmlns.com/foaf/0.1/" prefix="schema: http://schema.org/">
+
+    <main typeof="Group" resource="quick-start.html">
+
+        <h2>
+            <span property="name">The dream team</span>
+            <small lang="fr">(<span property="name">L'équipe de choc</span>)</small>
+        </h2>
+
+        <ul>
+            <li property="member" typeof="Person" id="alice" resource="#alice">
+                <span property="name">Alice</span>
+                <link property="knows" href="#bob" />
+            </li>
+
+            <li property="member" typeof="Person" id="bob" resource="#bob">
+                <span property="name">Bob</span>
+                <link property="knows" href="#alice" />
+            </li>
+
+            <li property="member" typeof="Agent" id="bobby" resource="#bobby">
+                <span property="name">Bobby</span> - 
+                <small property="schema:description">The friendly robot</small>
+            </li>
+        </ul>
+
+    </main>
+
+    <hr>
+
+    <h1>Raw JsonLD</h1>
+
+    <pre><output id="json-ld"></output></pre>
+
+    <h1>Framed JsonJD</h1>
+
+    <pre><code id="json-ld-frame"></code></pre>
+
+    <pre><output id="json-ld-framed"></output></pre>
+
+    <script type="module">
+        import "https://cdn.jsdelivr.net/npm/jsonld@8.2.0/dist/jsonld.esm.js"
+        import jsonldRdfaParser from '../../dist/browser/index.esm.js';
+
+        jsonld.registerRDFParser('text/html', jsonldRdfaParser);
+
+        const frame = {
+            "@context": {
+                "@base": window.location.toString(),
+                "@language": "en",
+                "@vocab": "http://xmlns.com/foaf/0.1/",
+                "schema": "http://schema.org/",
+                "description": "schema:description"
+            },
+            "@type": "Group",
+            "member": {
+                "@embed": "@always"
+            }
+        }
+
+        jsonld.fromRDF(document.documentElement, {format: 'text/html'})
+            .then((json) => {
+                document.getElementById("json-ld").textContent = JSON.stringify(json, null, 2)
+            
+                return jsonld.frame(json, frame)
+            })
+            .then((framedJson) => {
+                document.getElementById("json-ld-frame").textContent = JSON.stringify(frame, null, 2)
+                document.getElementById("json-ld-framed").textContent = JSON.stringify(framedJson, null, 2)
+            });
+
+        
+    </script>
+
+</body>
+</html>
