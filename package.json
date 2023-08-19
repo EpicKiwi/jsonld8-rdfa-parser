@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EpicKiwi/rdfa-jsonld.git"
+    "url": "git+https://github.com/EpicKiwi/jsonld8-rdfa-parser.git"
   },
   "keywords": [
     "JSON-LD",
@@ -27,9 +27,9 @@
   ],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/EpicKiwi/rdfa-jsonld/issues"
+    "url": "https://github.com/EpicKiwi/jsonld8-rdfa-parser/issues"
   },
-  "homepage": "https://github.com/EpicKiwi/rdfa-jsonld#readme",
+  "homepage": "https://github.com/EpicKiwi/jsonld8-rdfa-parser#readme",
   "dependencies": {
     "@rdfjs/data-model": "^2.0.1",
     "@rdfjs/dataset": "^2.0.1",
