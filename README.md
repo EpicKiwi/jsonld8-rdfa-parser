@@ -1,4 +1,4 @@
-# rdfa-jsonld
+# jsonld8-rdfa-parser
 
 A jsonld.js RDFa parser . Fork of [jsonld-rdfa-parser](https://github.com/science-periodicals/jsonld-rdfa-parser) with updated jsonld.js compatibility and ready-to-use esm browser bundle
 
@@ -9,12 +9,12 @@ Works in Node.js and the browser.
 RDFa parser must be register with [jsonld.js](https://github.com/digitalbazaar/jsonld.js). 
 Once registered, `jsonld.fromRDF` can be used and take for input a DOM element.
 
-Put `dist/browser/index.esm.js` as `rdfa-jsonld.esm.js` and `jsonld.esm.min.js` from [jsonld.js](https://github.com/digitalbazaar/jsonld.js) in your project directory.
+Put `dist/browser/index.esm.js` as `jsonld8-rdfa-parser.esm.js` and `jsonld.esm.min.js` from [jsonld.js](https://github.com/digitalbazaar/jsonld.js) in your project directory.
 
 Use the following code to parse RDFa from the current page.
 ```js
 import "./jsonld.esm.js"
-import jsonldRdfaParser from './index.esm.js';
+import jsonldRdfaParser from './jsonld8-rdfa-parser.esm.js';
 
 // register the parser for content type text/html
 jsonld.registerRDFParser('text/html', jsonldRdfaParser);
@@ -39,7 +39,7 @@ npm install --save jsonld rdfa-jsonld
 
 Use the following code to parse RDFa from a file named `test.html`.
 ```js
-import jsonldRdfaParser from 'rdfa-jsonld';
+import jsonldRdfaParser from 'jsonld8-rdfa-parser';
 import jsonld from 'jsonld';
 
 // register the parser for content type text/html

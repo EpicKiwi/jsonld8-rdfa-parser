@@ -1,5 +1,5 @@
 {
-  "name": "rdfa-jsonld",
+  "name": "jsonld8-rdfa-parser",
   "version": "3.0.0",
   "description": "A jsonld.js RDFa parser",
   "main": "dist/index.js",
@@ -8,7 +8,7 @@
   "scripts": {
     "test": "mocha",
     "build": "rollup -c",
-    "prepublish": "rm -rf dist && npm run build"
+    "prepare": "rm -rf dist && npm run build"
   },
   "prettier": {
     "singleQuote": true
