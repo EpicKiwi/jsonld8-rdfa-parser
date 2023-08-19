@@ -1,7 +1,7 @@
 {
-  "name": "jsonld-rdfa-parser",
+  "name": "rdfa-jsonld",
   "version": "2.0.0",
-  "description": "A custom RDFa parser to be registered with jsonld.js registerRDFParser method",
+  "description": "A jsonld.js RDFa parser",
   "main": "dist/index.js",
   "module": "src/index.js",
   "type": "module",
@@ -18,18 +18,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/science-periodicals/jsonld-rdfa-parser.git"
+    "url": "git+https://github.com/EpicKiwi/rdfa-jsonld.git"
   },
   "keywords": [
     "JSON-LD",
     "RDFa"
   ],
   "author": "Sebastien Ballesteros",
+  "contributors": [
+    "EpicKiwi <me@epickiwi.fr>"
+  ],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/science-periodicals/jsonld-rdfa-parser/issues"
+    "url": "https://github.com/EpicKiwi/rdfa-jsonld/issues"
   },
-  "homepage": "https://github.com/science-periodicals/jsonld-rdfa-parser#readme",
+  "homepage": "https://github.com/EpicKiwi/rdfa-jsonld#readme",
   "dependencies": {
     "@rdfjs/data-model": "^2.0.1",
     "@rdfjs/dataset": "^2.0.1",
