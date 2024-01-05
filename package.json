@@ -1,6 +1,6 @@
 {
   "name": "jsonld8-rdfa-parser",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A jsonld.js RDFa parser",
   "main": "dist/index.js",
   "module": "src/index.js",
