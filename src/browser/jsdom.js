@@ -1,15 +1,30 @@
-export function JSDOM() {
-  throw new Error('Only DOM elements are supported in a browser environment');
+function parseHTML(htmlString, sourceUrl) {
+  let parseResult = new DOMParser().parseFromString(htmlString, "text/html")
+  if(sourceUrl){
+    let baseEl = document.createElement("base")
+    baseEl.href = sourceUrl
+    parseResult.head.append(baseEl)
+  }
+  return {window: {document: parseResult}};
 }
 
-JSDOM.fromFile = function() {
-  return Promise.reject(
-    new Error('Only DOM elements are supported in a browser environment')
-  );
-};
+async function fetchUrl(url) {
+  let res = await fetch(url)
+  if(!res.ok) {
+    throw new Error(`Network error requesting ${url} : ${res.status} ${res.statusText}`)
+  }
 
-JSDOM.fromURL = function() {
-  return Promise.reject(
-    new Error('Only DOM elements are supported in a browser environment')
-  );
-};
+  let contentType = res.headers.get("Content-Type")
+  if(!contentType.startsWith("text/html")) {
+    throw new Error(`Received document with type ${contentType} from ${url} expected text/html`)
+  }
+
+  return parseHTML(await res.text(), url)
+}
+
+export function JSDOM(htmlString) {
+  return parseHTML(htmlString)
+}
+
+JSDOM.fromURL = fetchUrl
+JSDOM.fromFile = fetchUrl

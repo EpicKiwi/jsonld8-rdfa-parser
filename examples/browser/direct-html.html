@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An example of RDFa parsing from html directly</title>
+</head>
+<body>
+
+    <form id="source-form">
+        <label for="source-html">RDFa HTML code : </label>
+        <textarea name="source" id="source-html">
+            &lt;!DOCTYPE html&gt;
+            &lt;html lang=&quot;en&quot;&gt;
+            &lt;head&gt;
+                &lt;meta charset=&quot;UTF-8&quot;&gt;
+                &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+                &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+                &lt;title&gt;An example of RDFa parsing to JSONld&lt;/title&gt;
+            &lt;/head&gt;
+            &lt;body vocab=&quot;http://xmlns.com/foaf/0.1/&quot; prefix=&quot;schema: http://schema.org/&quot;&gt;
+            
+                &lt;main typeof=&quot;Group&quot; resource=&quot;quick-start.html&quot;&gt;
+            
+                    &lt;h2&gt;
+                        &lt;span property=&quot;name&quot;&gt;The dream team&lt;/span&gt;
+                        &lt;small lang=&quot;fr&quot;&gt;(&lt;span property=&quot;name&quot;&gt;L'&eacute;quipe de choc&lt;/span&gt;)&lt;/small&gt;
+                    &lt;/h2&gt;
+            
+                    &lt;ul&gt;
+                        &lt;li property=&quot;member&quot; typeof=&quot;Person&quot; id=&quot;alice&quot; resource=&quot;#alice&quot;&gt;
+                            &lt;span property=&quot;name&quot;&gt;Alice&lt;/span&gt;
+                            &lt;link property=&quot;knows&quot; href=&quot;#bob&quot; /&gt;
+                        &lt;/li&gt;
+            
+                        &lt;li property=&quot;member&quot; typeof=&quot;Person&quot; id=&quot;bob&quot; resource=&quot;#bob&quot;&gt;
+                            &lt;span property=&quot;name&quot;&gt;Bob&lt;/span&gt;
+                            &lt;link property=&quot;knows&quot; href=&quot;#alice&quot; /&gt;
+                        &lt;/li&gt;
+            
+                        &lt;li property=&quot;member&quot; typeof=&quot;Agent&quot; id=&quot;bobby&quot; resource=&quot;#bobby&quot;&gt;
+                            &lt;span property=&quot;name&quot;&gt;Bobby&lt;/span&gt; - 
+                            &lt;small property=&quot;schema:description&quot;&gt;The friendly robot&lt;/small&gt;
+                        &lt;/li&gt;
+                    &lt;/ul&gt;
+            
+                &lt;/main&gt;
+            &lt;/body&gt;
+            &lt;/html&gt;
+        </textarea>
+        <button>Read RDFa</button>
+    </form>
+
+    <h1>Raw JsonLD</h1>
+
+    <pre><output id="json-ld"></output></pre>
+
+    <h1>Framed JsonJD</h1>
+
+    <pre><code id="json-ld-frame"></code></pre>
+
+    <pre><output id="json-ld-framed"></output></pre>
+
+    <script type="module">
+        import "https://cdn.jsdelivr.net/npm/jsonld@8.2.0/dist/jsonld.esm.js"
+        import jsonldRdfaParser from '../../dist/browser/index.esm.js';
+
+        jsonld.registerRDFParser('text/html', jsonldRdfaParser);
+
+        const frame = {
+            "@context": {
+                "@base": window.location.toString(),
+                "@language": "en",
+                "@vocab": "http://xmlns.com/foaf/0.1/",
+                "schema": "http://schema.org/",
+                "description": "schema:description"
+            },
+            "@type": "Group",
+            "member": {
+                "@embed": "@always"
+            }
+        }
+
+        document.getElementById("source-form").addEventListener("submit", e => {
+            e.preventDefault();
+
+            let data = new FormData(document.getElementById("source-form"));
+
+            jsonld.fromRDF(data.get("source"), {format: 'text/html'})
+            .then((json) => {
+                document.getElementById("json-ld").textContent = JSON.stringify(json, null, 2)
+            
+                return jsonld.frame(json, frame)
+            })
+            .then((framedJson) => {
+                document.getElementById("json-ld-frame").textContent = JSON.stringify(frame, null, 2)
+                document.getElementById("json-ld-framed").textContent = JSON.stringify(framedJson, null, 2)
+            });
+        });
+    </script>
+
+</body>
+</html>

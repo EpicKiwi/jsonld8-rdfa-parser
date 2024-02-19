@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An example of RDFa parsing from a remote source</title>
+</head>
+<body>
+
+    <form id="source-form">
+        <label for="source-url">Source URL : </label>
+        <input type="text" name="url" id="source-url" value="./quick-start.html" />
+        <button>Read RDFa</button>
+    </form>
+
+    <h1>Raw JsonLD</h1>
+
+    <pre><output id="json-ld"></output></pre>
+
+    <h1>Framed JsonJD</h1>
+
+    <pre><code id="json-ld-frame"></code></pre>
+
+    <pre><output id="json-ld-framed"></output></pre>
+
+    <script type="module">
+        import "https://cdn.jsdelivr.net/npm/jsonld@8.2.0/dist/jsonld.esm.js"
+        import jsonldRdfaParser from '../../dist/browser/index.esm.js';
+
+        jsonld.registerRDFParser('text/html', jsonldRdfaParser);
+
+        const frame = {
+            "@context": {
+                "@base": window.location.toString(),
+                "@language": "en",
+                "@vocab": "http://xmlns.com/foaf/0.1/",
+                "schema": "http://schema.org/",
+                "description": "schema:description"
+            },
+            "@type": "Group",
+            "member": {
+                "@embed": "@always"
+            }
+        }
+
+        document.getElementById("source-form").addEventListener("submit", e => {
+            e.preventDefault();
+
+            let data = new FormData(document.getElementById("source-form"));
+
+            jsonld.fromRDF(data.get("url"), {format: 'text/html'})
+            .then((json) => {
+                document.getElementById("json-ld").textContent = JSON.stringify(json, null, 2)
+            
+                return jsonld.frame(json, frame)
+            })
+            .then((framedJson) => {
+                document.getElementById("json-ld-frame").textContent = JSON.stringify(frame, null, 2)
+                document.getElementById("json-ld-framed").textContent = JSON.stringify(framedJson, null, 2)
+            });
+        });
+    </script>
+
+</body>
+</html>
